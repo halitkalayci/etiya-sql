@@ -46,6 +46,31 @@ group by extract(year from orderdate)
 --
 
 
--- datediff
-
+-- datediff => postgresql mevcut değil
+-- timestamp
+-- type conversion
+-- son 15 gün içerisindeki siparişler
+Select * from orders
+where (DATE_PART('days',current_date::timestamp-orderdate::timestamp)) <= 10
 --
+
+-- Haftalık farkı almak..
+Select TRUNC(DATE_PART('days',current_date::timestamp-orderdate::timestamp) / 7) from orders
+
+-- İki tarih arasındaki saat farkını almak.
+Select DATE_PART('hour','2022-11-28 21:00'::timestamp) as "Tarih"
+Select DATE_PART('hour','2022-11-29 16:00'::timestamp) as "Tarih"
+
+-- İlgili query'i saat farkını doğru bir şekilde verecek hale getiriniz.
+Select DATE_PART('hour','2022-11-29 22:00'::timestamp - '2022-11-28 21:00'::timestamp)  as "Tarih"
+
+
+Select Date_Part('day','2022-11-29 22:00'::timestamp - '2022-11-28 21:00'::timestamp) * 24 
++Date_Part('hour','2022-11-29 22:00'::timestamp - '2022-11-28 21:00'::timestamp) as "Saat Farkı"
+
+Select DATE_PART('hour','2022-11-29 22:00'::timestamp - '2022-11-27 21:00'::timestamp+interval '24 hour') 
+as "Tarih"
+
+
+-- Veritabanınzda eksik ise date ve timestamp alanları ekleyip
+-- Bu alanların kullandığımız örneklere benzer 10 adet query ile örneklendirilmesi
